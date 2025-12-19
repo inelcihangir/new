@@ -295,7 +295,10 @@ void changePixelsWithTargetRed(int target_red){
     }
 }
 
-void hideMessageInPixels(char* message, int target_red, int (*pixels)[2], int* sorted_array, int len){
+void hideMessageInPixels(char* message, int target_red, int (*pixels)[2], int* sorted_array, int len)
+//burada neden int pixels[2] degil de int (*pixels)[2] kullanıyoruz? sonucta array de bir pointer değil
+//mi neden iki kez yazdık anlamadım
+{
     for(int i = 0; i < len; i++){
         int row = pixels[i][0];
         int col = pixels[i][1];
