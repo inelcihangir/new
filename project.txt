@@ -1,0 +1,79 @@
+PART-1: Encryption
+Getting User Input 
+You’re expected to ask for a secret message with a length between 1-255 and print the length of the message. We know that RGB values are at range 0-255. If the user enters nothing or a message longer than 255 characters, print the length of the message and ask for a new one until the user enters a message with a proper length. Please understand the relationship between line length restriction and RGB range before moving on to the next part. A sample run is given in the example.
+After encryption is completed, a message is printed as: ”Message has been successfully encrypted.”
+
+All of the secret messages as follows: (No other messages will tested in this part.)
+
+Hello, World!                                                       (13 characters in total) (Mdefault)
+Meet me at out ordinary place. 4 pm sharp!       (42 characters in total)  (M1)
+Hostile attack will be happened at mid-night.     (45 characters in total)  (M2)
+No homework for tomorrow but stay tuned!       (40 characters in total)  (M3) 
+
+Encrypting the Image
+
+
+Encryption Method: There are infinitely many ways for encoding a set of information on an image. However, for this project you are expected to encrypt the message with a way we specifically asked.
+
+In this project you will get an integer value from user. This value will be your target red value. Then, you will hide your secret message to the pixels with red values equal to this target red value.
+
+
+Getting a Target Red Value
+
+First of all, you need to get an integer red value before you start hiding your secret message. This red value will be your target red value. The only constraint is that it must be different than the message length. Also this value surely does not violate RGB value boundary.
+
+There are ONLY 4 different string messages to be tested. Their lengths are 13, 40, 42, 45. Therefore, target red value can not be these values. If one of these 4 values are entereed, give an error message of "Invalid entry.", and ask again.
+
+Generating a Value Array
+
+You will be given 4 randomly generated value arrays with the size of message lengths. In these arrays, the integer values are unique, i.e., each integer are different from each other. These arrays will be essential for your decryption algorithm.
+
+Mdefault : array_with_length13 = { 12, 121, 88, 158, 22, 87, 81, 240, 204, 20, 47, 139, 197 }
+
+M1 : array_with_length42 = {166, 99, 142, 92, 180, 89, 147, 217, 213, 98, 105, 189, 61, 58, 243, 43, 4, 230, 45, 7, 29, 223, 188, 40, 135, 114, 205, 234, 199, 103, 16, 232, 149, 225, 52, 8, 214, 133, 86, 183, 202, 222};
+
+M2 : array_with_length45 = {239, 223, 133, 225, 217, 253, 221, 10, 14, 138, 254, 136, 40, 186, 32, 74, 169, 41, 63, 235, 12, 111, 98, 229, 52, 244, 35, 5, 11, 6, 97, 29, 108, 43, 105, 250, 65, 173, 18, 149, 232, 134, 88, 141, 220};
+
+M3 : array_with_length40 = {101, 221, 46, 187, 134, 254, 125, 2, 93, 189, 182, 44, 151, 30, 166, 105, 253, 213, 251, 58, 88, 160, 76, 109, 140, 218, 90, 78, 7, 80, 150, 28, 94, 73, 227, 186, 53, 243, 156, 167};
+
+After you assign the given values to your array definitions, sort the each array in ascending order. For example, the array [8, 2, 15, 19, 1, 67] will become [1, 2, 8, 15, 19, 67]. You can use any of the sorting algorithm.
+
+
+Changing the Pixels with Target Red Value
+
+Only the pixels that carry the secret message must have red values equal to the target red value. To make sure that, you need to find pixels that already had the target red value and change their red value to another value. You must make this change by increasing their red values by 1. Aim of this step is preventing them from corrupting your message. After you complete this part, there shouldn’t be any pixel with target red value.
+
+Example: Let's say your target red value is 63 and one of the pixel in your image has the following rgb values: {63, 98, 101}. As you see, the red value of this pixel and your target red value are the same. Therefore, you must change the red value of this pixel by increasing the value by 1. This will lead to given pixel's rgb values to be {64, 98, 101}.
+Hiding the Message Length and Target Red Value in Pixel (0,0)
+
+You will use the (0,0) pixel of the image as a key and keep the message length and target red value in this pixel. To do so the following assignments are needed:
+
+Red Value of the (0,0) pixel = Message Length
+Green Value of the (0,0) pixel = Target Red Value. 
+Changing blue value is not necessary.
+
+Choosing pixels and hide information on them
+
+The pixels that you hide your secret message are specific to the provided messages above.
+
+
+pixels_for_Mdefault = {{1, 3}, {29, 30}, {9, 40}, {36, 9}, {23, 15}, {21, 8}, {3, 5}, {2, 4}, {37, 59}, {5, 6}, {42, 58}, {28, 51}, {25, 54} };
+
+
+pixels_for_M1 = {{33, 15}, {39, 34}, {38, 43}, {3, 4}, {34, 22}, {42, 46}, {7, 14}, {4, 5}, {19, 25}, {7, 23}, {23, 8}, {3, 1}, {33, 25}, {1, 6}, {34, 59}, {35, 48}, {32, 48}, {45, 4}, {30, 1}, {39, 11}, {19, 28}, {25, 22}, {34, 1}, {40, 54}, {42, 10}, {26, 0}, {39, 8}, {28, 44}, {42, 43}, {3, 56}, {11, 19}, {13, 58}, {1, 53}, {6, 52}, {14, 31}, {44, 37}, {1, 17}, {29, 54}, {31, 38}, {40, 49}, {42, 39}, {18, 31}};
+
+
+pixels_for_M2 = {{6, 56}, {25, 16}, {2, 3}, {25, 59}, {44, 33}, {22, 11}, {20, 18}, {37, 17}, {26, 39}, {19, 39}, {15, 51}, {18, 50}, {37, 6}, {31, 15}, {9, 10}, {24, 48}, {7, 5}, {39, 47}, {25, 2}, {28, 24}, {6, 38}, {0, 4}, {30, 36}, {11, 59}, {5, 36}, {22, 26}, {3, 26}, {40, 37}, {42, 46}, {34, 27}, {22, 52}, {42, 8}, {34, 5}, {25, 61}, {14, 31}, {14, 59}, {42, 13}, {13, 52}, {28, 19}, {17, 25}, {37, 44}, {34, 0}, {6, 4}, {45, 51}, {13, 49} };
+
+
+pixels_for_M3 = {{20, 58}, {3, 2}, {27, 23}, {30, 20}, {31, 51}, {1, 5}, {24, 57}, {25, 13}, {9, 4}, {42, 14}, {45, 35}, {4, 45}, {4, 1}, {25, 45}, {5, 29}, {42, 57}, {13, 5}, {8, 24}, {14, 30}, {7, 5}, {32, 14}, {24, 46}, {8, 34}, {32, 40}, {4, 4}, {12, 16}, {31, 48}, {30, 58}, {11, 5}, {42, 31}, {13, 30}, {26, 56}, {1, 34}, {22, 4}, {25, 52}, {30, 50}, {23, 4}, {25, 15}, {10, 9}, {30, 21}};
+
+
+Set each pixel’s RGB values to:
+
+Red Value=Target Red Value
+Green Value = ASCII code of the i’th character in the secret message
+Blue Value = sorted_array_with_length##[i]
+Printing the encrypted image's RGB values
+
+Lastly you have to printf the encrypted image's RGB values on the screen. However, it is enough to printf only the 9x8 matrix of left corner of the image. The format is actually given to you in the 3rd page.
